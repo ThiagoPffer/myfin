@@ -35,8 +35,8 @@ public class WalletEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "value", nullable = false)
-    private BigDecimal value;
+    @Column(name = "balance", nullable = false)
+    private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
