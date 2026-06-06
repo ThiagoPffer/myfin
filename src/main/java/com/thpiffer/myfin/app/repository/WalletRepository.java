@@ -1,11 +1,17 @@
 package com.thpiffer.myfin.app.repository;
 
 import com.thpiffer.myfin.app.entity.WalletEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.thpiffer.myfin.core.repository.BaseRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface WalletRepository extends JpaRepository<WalletEntity, UUID> {
+public interface WalletRepository extends BaseRepository<WalletEntity, UUID> {
+
+    @Override
+    default Class<WalletEntity> getEntityClass() {
+        return WalletEntity.class;
+    }
+
 }

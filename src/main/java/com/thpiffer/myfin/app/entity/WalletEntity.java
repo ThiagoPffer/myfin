@@ -10,6 +10,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Random;
 import java.util.UUID;
 
 @Data
@@ -48,5 +49,12 @@ public class WalletEntity {
 
     @Column(name = "exclusion_date_time")
     private LocalDateTime exclusionDateTime;
+
+    @PrePersist
+    private void gerarCodigo() {
+        if (this.code == 0) {
+            this.code = new Random().nextInt(10000);
+        }
+    }
 
 }

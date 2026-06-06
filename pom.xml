@@ -119,8 +119,39 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-		</plugins>
-	</build>
+		</plugin>
+		<plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.10</version>
+			<executions>
+				<execution>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>report</id>
+					<phase>test</phase>
+					<goals>
+						<goal>report</goal>
+					</goals>
+				</execution>
+			</executions>
+			<configuration>
+				<excludes>
+					<exclude>com/thpiffer/myfin/app/entity/**</exclude>
+					<exclude>com/thpiffer/myfin/app/enumeration/**</exclude>
+					<exclude>com/thpiffer/myfin/app/repository/**</exclude>
+					<exclude>com/thpiffer/myfin/app/exception/**</exclude>
+					<exclude>com/thpiffer/myfin/core/entity/**</exclude>
+					<exclude>com/thpiffer/myfin/core/enumeration/**</exclude>
+					<exclude>com/thpiffer/myfin/core/repository/**</exclude>
+					<exclude>com/thpiffer/myfin/core/exception/**</exclude>
+				</excludes>
+			</configuration>
+		</plugin>
+	</plugins>
+</build>
 
 </project>
