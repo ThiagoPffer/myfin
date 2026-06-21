@@ -3,6 +3,7 @@ package com.thpiffer.myfin.app.resource.impl;
 import com.thpiffer.myfin.app.dto.WalletCreateRequest;
 import com.thpiffer.myfin.app.dto.WalletResponse;
 import com.thpiffer.myfin.app.dto.WalletUpdateRequest;
+import com.thpiffer.myfin.app.exception.NotFoundException;
 import com.thpiffer.myfin.app.mapper.WalletMapper;
 import com.thpiffer.myfin.app.resource.WalletResource;
 import com.thpiffer.myfin.app.service.WalletService;
@@ -37,7 +38,8 @@ public class WalletResourceImpl implements WalletResource {
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<WalletResponse> getWalletById(@PathVariable UUID id) {
-        var wallet = walletService.getWalletById(id);
+        var wallet = walletService.getWalletById(id)
+                .orElseThrow(() -> new NotFoundException("Wallet Not Found With Id " + id));
         return ResponseEntity.ok(walletMapper.toResponse(wallet));
     }
 

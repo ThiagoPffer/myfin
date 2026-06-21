@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,8 +26,8 @@ public class WalletServiceImpl implements WalletService {
     private final WalletMapper mapper;
 
     @Override
-    public WalletEntity getWalletById(UUID id) {
-        return repository.findById(id).orElse(null);
+    public Optional<WalletEntity> getWalletById(UUID id) {
+        return repository.findById(id);
     }
 
     @Override

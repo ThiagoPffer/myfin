@@ -86,7 +86,7 @@ public class WalletServiceTest {
     // ===================== GET BY ID =====================
 
     @Test
-    void getWalletById_receivesValidId_returnsWalletEntity() {
+    void getWalletById_receivesValidId_returnsWalletEntityOptional() {
         var walletEntity = WalletEntity.builder()
                 .id(WALLET_ID)
                 .code(1001)
@@ -100,8 +100,9 @@ public class WalletServiceTest {
         var result = Assertions.assertDoesNotThrow(() -> service.getWalletById(WALLET_ID));
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(WALLET_ID, result.getId());
-        Assertions.assertEquals(1001, result.getCode());
+        Assertions.assertFalse(result.isEmpty());
+        Assertions.assertEquals(WALLET_ID, result.get().getId());
+        Assertions.assertEquals(1001, result.get().getCode());
 
         Mockito.verify(repository, Mockito.times(1)).findById(WALLET_ID);
     }

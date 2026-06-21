@@ -6,6 +6,7 @@ import com.thpiffer.myfin.app.dto.WalletResponse;
 import com.thpiffer.myfin.app.dto.WalletUpdateRequest;
 import com.thpiffer.myfin.app.entity.WalletEntity;
 import com.thpiffer.myfin.app.enumeration.EnumWalletType;
+import com.thpiffer.myfin.app.exception.NotFoundException;
 import com.thpiffer.myfin.app.mapper.WalletMapper;
 import com.thpiffer.myfin.app.resource.impl.WalletResourceImpl;
 import com.thpiffer.myfin.app.service.WalletService;
@@ -24,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
@@ -100,7 +102,7 @@ public class WalletResourceTest {
     void getWalletById_receivesValidId_returnsWalletResponse() {
         var walletEntity = new WalletEntity();
 
-        Mockito.when(service.getWalletById(DEFAULT_ID)).thenReturn(walletEntity);
+        Mockito.when(service.getWalletById(DEFAULT_ID)).thenReturn(Optional.of(walletEntity));
         Mockito.when(mapper.toResponse(walletEntity)).thenReturn(DEFAULT_RESPONSE);
 
         ResponseEntity<WalletResponse> response = Assertions.assertDoesNotThrow(() ->
@@ -113,6 +115,18 @@ public class WalletResourceTest {
 
         Mockito.verify(service).getWalletById(DEFAULT_ID);
         Mockito.verify(mapper).toResponse(walletEntity);
+    }
+
+    @Test
+    void getWalletById_receivesValidId_returnsNotFound() {
+        Mockito.when(service.getWalletById(DEFAULT_ID)).thenReturn(Optional.empty());
+
+        NotFoundException exception = Assertions.assertThrows(
+                NotFoundException.class, () -> resource.getWalletById(DEFAULT_ID));
+
+        Assertions.assertNotNull(exception);
+
+        Mockito.verify(service).getWalletById(DEFAULT_ID);
     }
 
     // ===================== CREATE =====================
