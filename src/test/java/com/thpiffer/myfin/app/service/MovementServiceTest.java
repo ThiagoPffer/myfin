@@ -213,4 +213,15 @@ class MovementServiceTest {
         Mockito.verify(walletService, Mockito.times(1)).getWalletById(walletId);
     }
 
+    @Test
+    void deleteMovementById_receivesValidId_deletesMovement() {
+        UUID movementId = UUID.fromString("3dc4c341-3b30-4f70-9ea8-759bace4fed9");
+
+        Mockito.doNothing().when(repository).deleteById(movementId);
+
+        Assertions.assertDoesNotThrow(() -> service.deleteMovementById(movementId));
+
+        Mockito.verify(repository, Mockito.times(1)).deleteById(movementId);
+    }
+
 }
